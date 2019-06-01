@@ -1,2 +1,1 @@
-# tweetr
-A twitter clone written in Kotlin and JS using Spring and Vue
+### For information about the project or documentation, please head to the wiki
