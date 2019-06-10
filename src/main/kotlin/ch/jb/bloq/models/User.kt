@@ -12,9 +12,11 @@ class User(
         @Column
         var email: String,
         @Column
+        var username: String,
+        @Column
         var password: String,
         @Column
-        var username: String,
+        var role: Role,
         @OneToMany(mappedBy = "author")
         var posts: MutableList<BlogPost>
 ) {
@@ -23,6 +25,16 @@ class User(
             "",
             "",
             "",
+            Role.USER,
+            mutableListOf()
+    )
+
+    constructor(email: String, username: String, password: String): this(
+            null,
+            email,
+            username,
+            password,
+            Role.USER,
             mutableListOf()
     )
 }

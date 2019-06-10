@@ -4,9 +4,9 @@ plugins {
     id("org.springframework.boot") version "2.1.5.RELEASE"
     id("io.spring.dependency-management") version "1.0.7.RELEASE"
     id("net.ltgt.apt") version "0.8"
-    kotlin("kapt") version "1.3.31"
     kotlin("jvm") version "1.3.31"
     kotlin("plugin.spring") version "1.3.31"
+    kotlin("kapt") version "1.3.31"
 }
 
 group = "ch.jb"
@@ -24,8 +24,11 @@ dependencies {
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
+    compileOnly("io.jsonwebtoken:jjwt-api:0.10.5")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.10.5")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.10.5")
+
     implementation("org.mapstruct:mapstruct:1.3.0.Final")
-    annotationProcessor("org.mapstruct:mapstruct-processor:1.3.0.Final")
     kapt("org.mapstruct:mapstruct-processor:1.3.0.Final")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
