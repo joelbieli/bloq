@@ -19,7 +19,7 @@ data class UserPrincipal(
             user.username,
             user.email,
             user.password,
-            mutableListOf(SimpleGrantedAuthority(user.role.name))
+            mutableListOf(SimpleGrantedAuthority("ROLE_${user.role.name}"))
     )
 
     override fun getUsername(): String = username

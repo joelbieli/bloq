@@ -12,7 +12,7 @@ class UserDetailsService: UserDetailsService {
     @Autowired
     private lateinit var userService: UserService
 
-    override fun loadUserByUsername(username: String): UserDetails = UserPrincipal(userService.findUserByUsername(username))
+    override fun loadUserByUsername(username: String): UserDetails = UserPrincipal(userService.findByUsername(username))
 
-    fun loadUserById(id: Long): UserDetails = UserPrincipal(userService.findUserByUserId(id))
+    fun loadUserById(id: Long): UserDetails = UserPrincipal(userService.findById(id))
 }

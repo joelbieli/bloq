@@ -35,6 +35,9 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
     @Autowired
     private lateinit var unauthorizedHandler: JwtAuthenticationEntryPoint
 
+    @Autowired
+    private lateinit var jwtAuthenticationFilter: JwtAuthenticationFilter
+
     @Throws(Exception::class)
     public override fun configure(authenticationManagerBuilder: AuthenticationManagerBuilder) {
         authenticationManagerBuilder
@@ -62,7 +65,7 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterBefore(JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
                 .authorizeRequests()
                 .antMatchers("/",
                         "/favicon.ico",
@@ -75,6 +78,8 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
                         "/**/*.js")
                 .permitAll()
                 .antMatchers("/api/auth/**")
+                .permitAll()
+                .antMatchers(HttpMethod.GET, "/api/blogposts", "/api/blogpost/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

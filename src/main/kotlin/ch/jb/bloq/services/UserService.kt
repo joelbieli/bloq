@@ -12,9 +12,9 @@ class UserService {
     @Autowired
     private lateinit var userRepository: UserRepository
 
-    fun findUserByUsername(username: String): User = userRepository.findUserByUsername(username)
+    fun findByUsername(username: String): User = userRepository.findByUsername(username)
 
-    fun findUserByUserId(id: Long): User {
+    fun findById(id: Long): User {
         val user = userRepository.findById(id)
 
         if (user.isPresent) {
