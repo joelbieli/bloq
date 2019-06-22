@@ -9,7 +9,7 @@ class Tag(
         @Column
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long?,
-        @Column
+        @Column(unique = true)
         var name: String
 ) {
     constructor(): this(

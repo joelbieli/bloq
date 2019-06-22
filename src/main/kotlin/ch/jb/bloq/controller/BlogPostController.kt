@@ -35,6 +35,10 @@ class BlogPostController {
     fun getAllBlogPosts(): ResponseEntity<List<BlogPostDTO>> =
             ResponseEntity(blogPostMapper.toDTOs(blogPostService.findAll()), HttpStatus.OK)
 
+    @GetMapping("/blogposts/{tag}")
+    fun getAllBlogPostsByTag(@PathVariable tag: String): ResponseEntity<List<BlogPostDTO>> =
+            ResponseEntity(blogPostMapper.toDTOs(blogPostService.findByTagsName(tag)), HttpStatus.OK)
+
     @GetMapping("/blogpost/{id}")
     fun getBlogPostById(@PathVariable id: Long): ResponseEntity<BlogPostDTO> =
             ResponseEntity(blogPostMapper.toDTO(blogPostService.findById(id)), HttpStatus.OK)

@@ -1,9 +1,14 @@
 package ch.jb.bloq.models
 
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import java.util.*
 import javax.persistence.*
 
 @Entity
 @Table(name = "blog_posts")
+@EntityListeners(AuditingEntityListener::class)
 class BlogPost(
         @Id
         @Column
@@ -11,8 +16,14 @@ class BlogPost(
         var id: Long?,
         @Column
         var title: String,
-        @Column
+        @Column(length = 10485760)
         var text: String,
+        @CreatedDate
+        @Column(name = "created_date", nullable = false, updatable = false)
+        var createdDate: Long,
+        @LastModifiedDate
+        @Column(name = "last_edited_date")
+        var lastEditedDate: Long,
         @JoinColumn(name = "author_id")
         @ManyToOne
         var author: User?,
@@ -30,6 +41,8 @@ class BlogPost(
             null,
             "",
             "",
+            0,
+            0,
             null,
             mutableListOf(),
             mutableListOf()

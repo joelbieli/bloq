@@ -30,17 +30,17 @@ class TagController {
     fun getAllTags(@PathVariable id: Long): ResponseEntity<TagDTO> =
             ResponseEntity(tagMapper.toDTO(tagService.findById(id)), HttpStatus.OK)
 
-    @PostMapping("/blogpost")
+    @PostMapping("/tag")
     @PreAuthorize("hasRole('ADMIN')")
     fun createBlogPost(@RequestBody tagDTO: TagDTO): ResponseEntity<TagDTO> =
             ResponseEntity(tagMapper.toDTO(tagService.save(tagMapper.toModel(tagDTO))), HttpStatus.OK)
 
-    @PutMapping("/blogpost")
+    @PutMapping("/tag")
     @PreAuthorize("hasRole('ADMIN')")
     fun updateBlogPost(@RequestBody blogPostDTO: TagDTO): ResponseEntity<TagDTO> =
             ResponseEntity(tagMapper.toDTO(tagService.save(tagMapper.toModel(blogPostDTO))), HttpStatus.OK)
 
-    @DeleteMapping("/blogpost/{id}")
+    @DeleteMapping("/tag/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     fun deleteBlogPost(@PathVariable id: Long): ResponseEntity<*> {
         tagService.delete(id)

@@ -6,6 +6,7 @@ import ch.jb.bloq.dtos.LoginDTO
 import ch.jb.bloq.dtos.SignupDTO
 import ch.jb.bloq.models.User
 import ch.jb.bloq.security.JwtProvider
+import ch.jb.bloq.security.UserPrincipal
 import ch.jb.bloq.services.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -42,7 +43,13 @@ class AuthenticationController {
 
         SecurityContextHolder.getContext().authentication = authentication
 
-        return ResponseEntity.ok(AuthenticationResponseDTO(JwtProvider.generateToken(authentication)))
+        val userPrincipal = authentication.principal as UserPrincipal
+
+        return ResponseEntity.ok(AuthenticationResponseDTO(
+                JwtProvider.generateToken(authentication),
+                userPrincipal.username,
+                userPrincipal.authorities.elementAt(0).authority.drop(5)
+        ))
     }
 
     @PostMapping("/signup")

@@ -1,0 +1,36 @@
+@import "../../../node_modules/bulma";
+@import "../../../node_modules/buefy/src/scss/buefy";
+
+.md-view {
+  text-align: left;
+  
+  h1 {
+    @extend .is-size-1;
+    @extend .has-text-centered;
+  }
+
+  h2 {
+    @extend .is-size-2;
+    @extend .has-text-centered;
+  }
+
+  h3 {
+    @extend .is-size-3;
+    @extend .has-text-centered;
+  }
+
+  h4 {
+    @extend .is-size-4;
+    @extend .has-text-centered;
+  }
+
+  h5 {
+    @extend .is-size-5;
+    @extend .has-text-centered;
+  }
+
+  h6 {
+    @extend .is-size-6;
+    @extend .has-text-centered;
+  }
+}

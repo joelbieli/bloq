@@ -14,6 +14,8 @@ class UserService {
 
     fun findByUsername(username: String): User = userRepository.findByUsername(username)
 
+    fun findByEmail(email: String): User = userRepository.findByEmail(email)
+
     fun findById(id: Long): User {
         val user = userRepository.findById(id)
 

@@ -79,7 +79,7 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
                 .permitAll()
                 .antMatchers("/api/auth/**")
                 .permitAll()
-                .antMatchers(HttpMethod.GET, "/api/blogposts", "/api/blogpost/**")
+                .antMatchers(HttpMethod.GET, "/api/blogposts/**", "/api/blogpost/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
