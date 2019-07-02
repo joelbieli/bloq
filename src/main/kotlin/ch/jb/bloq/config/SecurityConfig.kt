@@ -81,6 +81,16 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
                 .permitAll()
                 .antMatchers(HttpMethod.GET, "/api/blogposts/**", "/api/blogpost/**")
                 .permitAll()
+                .antMatchers(
+                        "/v2/api-docs",
+                        "/configuration/ui",
+                        "/swagger-resources/**",
+                        "/configuration/security",
+                        "/swagger-ui.html",
+                        "/webjars/**",
+                        "/csrf"
+                )
+                .permitAll()
                 .anyRequest()
                 .authenticated()
     }
