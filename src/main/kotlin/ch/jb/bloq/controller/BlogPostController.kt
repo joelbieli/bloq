@@ -8,6 +8,9 @@ import ch.jb.bloq.security.CurrentUser
 import ch.jb.bloq.security.UserPrincipal
 import ch.jb.bloq.services.BlogPostService
 import ch.jb.bloq.services.UserService
+import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.annotations.ApiParam
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -15,6 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 
+@Api(value = "Blog Post Management System", description = "Operations pertaining to blog posts")
 @Controller
 @RequestMapping("/api")
 class BlogPostController {
@@ -31,22 +35,36 @@ class BlogPostController {
     @Autowired
     private lateinit var commentMapper: CommentMapper
 
+    @ApiOperation(value = "Retrieve all blog posts", responseContainer = "List", response = BlogPostDTO::class)
     @GetMapping("/blogposts")
     fun getAllBlogPosts(): ResponseEntity<List<BlogPostDTO>> =
             ResponseEntity(blogPostMapper.toDTOs(blogPostService.findAll()), HttpStatus.OK)
 
+    @ApiOperation(value = "Retrieve all blog posts with a given tag", responseContainer = "List", response = BlogPostDTO::class)
     @GetMapping("/blogposts/{tag}")
-    fun getAllBlogPostsByTag(@PathVariable tag: String): ResponseEntity<List<BlogPostDTO>> =
+    fun getAllBlogPostsByTag(
+            @ApiParam(value = "Tag to filter the blog posts by", required = true)
+            @PathVariable
+            tag: String
+    ): ResponseEntity<List<BlogPostDTO>> =
             ResponseEntity(blogPostMapper.toDTOs(blogPostService.findByTagsName(tag)), HttpStatus.OK)
 
+    @ApiOperation(value = "Retrieve the blog post with the given id", response = BlogPostDTO::class)
     @GetMapping("/blogpost/{id}")
-    fun getBlogPostById(@PathVariable id: Long): ResponseEntity<BlogPostDTO> =
+    fun getBlogPostById(
+            @ApiParam(value = "Id of the blog post to get", required = true)
+            @PathVariable
+            id: Long
+    ): ResponseEntity<BlogPostDTO> =
             ResponseEntity(blogPostMapper.toDTO(blogPostService.findById(id)), HttpStatus.OK)
 
+    @ApiOperation(value = "Create a new blog post", response = BlogPostDTO::class)
     @PostMapping("/blogpost")
     @PreAuthorize("hasRole('ADMIN')")
     fun createBlogPost(
-            @RequestBody blogPostDTO: BlogPostDTO,
+            @ApiParam(value = "Blog post to create", required = true)
+            @RequestBody
+            blogPostDTO: BlogPostDTO,
             @CurrentUser currentUser: UserPrincipal
     ): ResponseEntity<BlogPostDTO> =
             ResponseEntity(
@@ -56,11 +74,16 @@ class BlogPostController {
                     HttpStatus.OK
             )
 
+    @ApiOperation(value = "Add a comment to the blog post with the given id", response = BlogPostDTO::class)
     @PostMapping("/blogpost/{id}/comment")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     fun addComment(
-            @RequestBody commentDTO: CommentDTO,
-            @PathVariable id: Long,
+            @ApiParam(value = "Comment to add", required = true)
+            @RequestBody
+            commentDTO: CommentDTO,
+            @ApiParam(value = "Id of the comment to add the comment to", required = true)
+            @PathVariable
+            id: Long,
             @CurrentUser currentUser: UserPrincipal
     ): ResponseEntity<BlogPostDTO> =
             ResponseEntity(
@@ -70,14 +93,24 @@ class BlogPostController {
                     HttpStatus.OK
             )
 
+    @ApiOperation(value = "Update an existing blog post", response = BlogPostDTO::class)
     @PutMapping("/blogpost")
     @PreAuthorize("hasRole('ADMIN')")
-    fun updateBlogPost(@RequestBody blogPostDTO: BlogPostDTO): ResponseEntity<BlogPostDTO> =
+    fun updateBlogPost(
+            @ApiParam(value = "Updated blog post", required = true)
+            @RequestBody
+            blogPostDTO: BlogPostDTO
+    ): ResponseEntity<BlogPostDTO> =
             ResponseEntity(blogPostMapper.toDTO(blogPostService.save(blogPostMapper.toModel(blogPostDTO))), HttpStatus.OK)
 
+    @ApiOperation(value = "Delete the blog post with the given id")
     @DeleteMapping("/blogpost/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    fun deleteBlogPost(@PathVariable id: Long): ResponseEntity<*> {
+    fun deleteBlogPost(
+            @ApiParam(value = "Id of the blog post to delete", required = true)
+            @PathVariable
+            id: Long
+    ): ResponseEntity<*> {
         blogPostService.delete(id)
         return ResponseEntity<Any>(HttpStatus.OK)
     }

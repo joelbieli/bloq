@@ -18,24 +18,35 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    // Spring dependencies
+    implementation("org.springframework.boot:spring-boot-starter-security") // Spring security
+    implementation("org.springframework.boot:spring-boot-starter-web") // Spring web
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa") // Spring data JPA
 
+    // Jackson extension for Kotlin support
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
+    // API documentation dependency
+    implementation("io.springfox:springfox-swagger2:2.9.2")
+    implementation("io.springfox:springfox-swagger-ui:2.9.2")
+
+    // JSON web token dependencies
     compileOnly("io.jsonwebtoken:jjwt-api:0.10.5")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.10.5")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.10.5")
 
+    // Map struct dependencies - for DTO <-> Model conversion
     implementation("org.mapstruct:mapstruct:1.3.0.Final")
     kapt("org.mapstruct:mapstruct-processor:1.3.0.Final")
 
+    // Kotlin dependencies
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
+    // PostgreSQL JPA driver
     runtimeOnly("org.postgresql:postgresql")
 
+    // Testing dependencies
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
 }
