@@ -4,6 +4,7 @@
 //    variables in _variables.scss
 @import "variables";
 @import "markdown";
+@import "styles";
 
 // 2. Setup your Custom Colors
 $linkedin: #0077b5;
@@ -25,5 +26,6 @@ $colors: map-merge($colors, $addColors);
 
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
+@import "~bulma-divider";
 
 // 4. Provide custom buefy overrides and site styles here

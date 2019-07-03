@@ -25,21 +25,21 @@ class CommentController {
     private lateinit var commentMapper: CommentMapper
 
     @GetMapping("/comments")
-    fun getAllBlogPosts(): ResponseEntity<List<CommentDTO>> =
+    fun getAllComments(): ResponseEntity<List<CommentDTO>> =
             ResponseEntity(commentMapper.toDTOs(commentService.findAll()), HttpStatus.OK)
 
     @GetMapping("/comment/{id}")
-    fun getBlogPostById(@PathVariable id: Long): ResponseEntity<CommentDTO> =
+    fun getCommentById(@PathVariable id: Long): ResponseEntity<CommentDTO> =
             ResponseEntity(commentMapper.toDTO(commentService.findById(id)), HttpStatus.OK)
 
     @PutMapping("/comment")
-    @PreAuthorize("hasRole('USER')")
-    fun updateBlogPost(@RequestBody commentDTO: CommentDTO): ResponseEntity<CommentDTO> =
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    fun updateComment(@RequestBody commentDTO: CommentDTO): ResponseEntity<CommentDTO> =
             ResponseEntity(commentMapper.toDTO(commentService.save(commentMapper.toModel(commentDTO))), HttpStatus.OK)
 
     @DeleteMapping("/comment/{id}")
-    @PreAuthorize("hasRole('USER')")
-    fun deleteBlogPost(@PathVariable id: Long): ResponseEntity<*> {
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    fun deleteComment(@PathVariable id: Long): ResponseEntity<*> {
         commentService.delete(id)
         return ResponseEntity<Any>(HttpStatus.OK)
     }

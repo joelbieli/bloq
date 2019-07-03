@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface TagRepository: JpaRepository<Tag, Long> {
     fun existsByName(name: String): Boolean
+    fun findByName(name: String): Tag
 }

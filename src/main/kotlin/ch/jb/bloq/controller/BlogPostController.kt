@@ -57,7 +57,7 @@ class BlogPostController {
             )
 
     @PostMapping("/blogpost/{id}/comment")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     fun addComment(
             @RequestBody commentDTO: CommentDTO,
             @PathVariable id: Long,

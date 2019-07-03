@@ -19,12 +19,12 @@
                 </b-taginput>
             </b-field>
         </div>
-        <div class="column is-half content">
+        <div class="column is-half">
             <textarea class="textarea is-family-code md-editor"
                       v-model="blogPost.text"
                       @input="resize"></textarea>
         </div>
-        <div class="column is-half md-view" v-html="parsedMD"></div>
+        <div class="column is-half md-view content" v-html="parsedMD"></div>
         <div class="column is-12">
             <b-button class="is-pulled-right"
                       type="is-primary"

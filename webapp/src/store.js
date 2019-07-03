@@ -38,6 +38,8 @@ export default new Vuex.Store({
         username: '',
         role: '',
       };
+
+      localStorage.removeItem('user');
     },
   },
   actions: {

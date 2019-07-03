@@ -4,19 +4,40 @@
             <div class="box">
                 <h1 class="is-size-2 is-bold">{{blogPost.title}}</h1>
                 <tags :tags="blogPost.tags"/>
-                <div class="is-size-5 md-view" v-html="parsedMD"></div>
+                <div class="is-size-5 md-view content" v-html="parsedMD"></div>
                 <span class="is-size-7 has-text-grey">
                     Created: {{formattedCreatedDate}},&#9;Last edited: {{formattedLateEditedDate}}
                 </span>
+            </div>
+            <div class="box" v-if="isLoggedIn">
+                <div class="level">
+                    <b-input class="width level-item"
+                             rows="1"
+                             placeholder="Write a comment..."
+                             type="textarea"
+                             maxlength="500"
+                             v-model="comment"></b-input>
+                    <b-button type="is-primary" @click="submitComment">Post comment</b-button>
+                </div>
+                <div class="has-text-left"
+                     :key="comment.id"
+                     v-for="comment in blogPost.comments">
+                    <div class="is-divider"></div>
+                    <h4 class="is-size-6 has-text-weight-bold">{{comment.author.username}}</h4>
+                    <p>
+                        {{comment.text}}
+                    </p>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import Tags from '@/components/read/Tags.vue';
+import { mapGetters, mapState } from 'vuex';
 import moment from 'moment';
 import marked from 'marked';
+import Tags from '@/components/read/Tags.vue';
 
 export default {
   name: 'Blog',
@@ -26,6 +47,7 @@ export default {
   data() {
     return {
       blogPost: Object,
+      comment: '',
     };
   },
   computed: {
@@ -37,10 +59,32 @@ export default {
       }
       return '';
     },
+    ...mapGetters({
+      isLoggedIn: 'isLoggedIn',
+    }),
+    ...mapState({
+      authToken: state => state.user.authToken,
+    }),
+  },
+  methods: {
+    submitComment() {
+      this.$axios.post(
+        `/blogpost/${this.blogPost.id}/comment`,
+        { text: this.comment },
+        { headers: { Authorization: `Bearer ${this.authToken}` } },
+      ).then((response) => {
+        this.comment = '';
+        this.blogPost = response.data;
+      })
+        .catch(() => this.$notification.open({
+          type: 'is-danger',
+          message: 'A problem occurred while submitting your comment',
+        }));
+    },
   },
   mounted() {
     this.$axios.get(`/blogpost/${this.$route.params.id}`)
-      .then(function success(response) {
+      .then((response) => {
         this.blogPost = response.data;
       })
       .catch(() => this.$notification.open({

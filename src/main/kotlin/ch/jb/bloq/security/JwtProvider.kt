@@ -22,13 +22,13 @@ object JwtProvider {
     private val key: Key = getKey()
 
     private fun getKey(): Key {
-        val jwtSecret = ClassPathResource("jwtsecret.key")
+        val jwtSecret = File("jwtsecret.key")
 
         return if (jwtSecret.exists()) {
-            Keys.hmacShaKeyFor(jwtSecret.inputStream.readAllBytes())
+            Keys.hmacShaKeyFor(jwtSecret.readBytes())
         } else {
             val newKey = Keys.secretKeyFor(SignatureAlgorithm.HS512)
-            File(ClassPathResource("application.yml").file.parentFile.path + "/jwtsecret.key").writeBytes(newKey.encoded)
+            jwtSecret.also { it.createNewFile() }.writeBytes(newKey.encoded)
             newKey
         }
     }

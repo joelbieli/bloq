@@ -1,0 +1,13 @@
+@import "../../../node_modules/bulma";
+@import "../../../node_modules/buefy/src/scss/buefy";
+
+.logo {
+  color: white;
+  font-size: 2rem;
+  font-family: 'Righteous', cursive;
+  padding: 0 0.75rem;
+
+  &:hover {
+    color: white;
+  }
+}
