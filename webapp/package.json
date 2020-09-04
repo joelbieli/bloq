@@ -12,7 +12,7 @@
     "buefy": "^0.7.4",
     "bulma-divider": "^0.2.0",
     "core-js": "^2.6.5",
-    "marked": "^0.6.2",
+    "marked": "^1.1.1",
     "moment": "^2.24.0",
     "vee-validate": "^2.2.11",
     "vue": "^2.6.10",
